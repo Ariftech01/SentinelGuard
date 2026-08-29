@@ -1,0 +1,23 @@
+{
+  "summary": "Frontend smoke and interaction testing completed across desktop and mobile. Core routing, console scanning/result, policy CRUD actions, audit modal, and settings controls work; event filtering and mobile overflow fail.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Dashboard mobile layout", "issue": "Horizontal overflow at 390px viewport (document scrollWidth 746px vs clientWidth 390px), caused by the lower live-events panel/table escaping its table-wrap/container.", "selector": ".lower-grid .panel, .lower-grid .table-wrap", "priority": "HIGH"}
+    ],
+    "integration_issues": [
+      {"flow": "Live Events search", "issue": "Typing svc_support updates the displayed count to 1 but all 6 table rows remain rendered; filtered data is not passed to EventTable.", "affected_selectors": ["[data-testid=events-search-input]", "[data-testid=security-events-table]"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": ["Pass filtered events into EventTable (or filter rows inside it) so search changes visible rows, not only the count.", "Constrain dashboard lower-grid/panel width on mobile and preserve horizontal scrolling inside table-wrap without expanding the document."],
+  "critical_code_review_comments": ["Events computes filtered but renders <EventTable /> without a data prop, making search functionally misleading."],
+  "updated_files": ["/app/test_reports/iteration_1.json"],
+  "success_rate": {"backend": "N/A (mock-only frontend; no backend calls)", "frontend": "80%"},
+  "seed_data_creation": "None; all data is frontend mock data.",
+  "retest_needed": true,
+  "should_call_test_agent_after_fix": true,
+  "context_for_next_testing_agent": "Desktop routing, AI console, policies create/delete, audit modal, settings controls passed. Recheck event row filtering and 390px overflow after fixes.",
+  "rca of the issue": "Live Events owns query/filter computation but EventTable closes over the global events constant and has no rows/data parameter. Mobile overflow comes from the dashboard lower-grid live-events panel retaining its 700px table minimum width outside the intended overflow wrapper. ALL DATA/API INTEGRATIONS ARE MOCKED; no backend API was exercised."
+}
