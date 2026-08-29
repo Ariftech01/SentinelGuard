@@ -86,3 +86,18 @@ android-sdk/
 credentials.json
 *.key
 .credentials
+
+# Development platform files
+.emergent/
+
+# Local Git configuration
+.gitconfig
+
+# Internal project memory / development notes
+memory/
+
+# Internal test reports and screenshots
+test_reports/
+
+# Internal testing documentation
+auth_testing.md
